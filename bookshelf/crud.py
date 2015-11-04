@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from bookshelf import get_model
-from flask import Blueprint, redirect, render_template, request, url_for
+from bookshelf import get_model, oauth2
+from flask import Blueprint, current_app, redirect, render_template, request, \
+    session, url_for
 
 
 crud = Blueprint('crud', __name__)
@@ -32,6 +33,29 @@ def list():
 # [END list]
 
 
+@crud.route("/mine")
+@oauth2.required
+def list_mine():
+    token = request.args.get('page_token', None)
+
+    books, next_page_token = get_model().list_by_user(
+        user_id=session['profile']['id'],
+        cursor=token)
+
+    return render_template(
+        "list_mine.html",
+        books=books,
+        next_page_token=next_page_token)
+
+# Add a logout handler.
+@crud.route('/logout')
+def logout():
+    # Delete the user's profile and the credentials stored by oauth2.
+    del session['profile']
+    oauth2.storage.delete()
+    return redirect(request.referrer or '/')
+
+
 @crud.route('/<id>')
 def view(id):
     book = get_model().read(id)
@@ -43,6 +67,11 @@ def view(id):
 def add():
     if request.method == 'POST':
         data = request.form.to_dict(flat=True)
+
+        # If the user is logged in, associate their profile with the new book.
+        if 'profile' in session:
+            data['createdBy'] = session['profile']['displayName']
+            data['createdById'] = session['profile']['id']
 
         book = get_model().create(data)
 

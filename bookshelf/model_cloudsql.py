@@ -54,40 +54,67 @@ class Book(db.Model):
 # [END model]
 
 
-# [START list]
-def list(limit=10, cursor=None):
+class Box(db.Model):
+    __tablename__ = 'Boxes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(1023))
+    name = db.Column(db.String(255))
+    major = db.Column(db.String(255))
+    seeking = db.Column(db.Text(16383))
+    offering = db.Column(db.Text(16383))
+    email = db.Column(db.String(255))
+    type = db.Column(db.Integer)
+    category = db.Column(db.Integer)
+    category2 = db.Column(db.Integer)
+    category3 = db.Column(db.Integer)
+    createdBy = db.Column(db.String(255))
+    createdById = db.Column(db.String(255))
+
+    def __repr__(self):
+        return "<Box(title='%s', author=%s)" % (self.title, self.name)
+
+
+def list(limit=500, cursor=None):
     cursor = int(cursor) if cursor else 0
-    query = (Book.query
-             .order_by(Book.title)
+    query = (Box.query
+             .order_by(Box.title)
              .limit(limit)
              .offset(cursor))
     books = builtin_list(map(from_sql, query.all()))
     next_page = cursor + limit if len(books) == limit else None
     return (books, next_page)
-# [END list]
 
 
-# [START read]
+def list_by_user(user_id, limit=100, cursor=None):
+    cursor = int(cursor) if cursor else 0
+    query = (Box.query
+             .filter_by(createdById=user_id)
+             .order_by(Box.title)
+             .limit(limit)
+             .offset(cursor))
+    books = builtin_list(map(from_sql, query.all()))
+    next_page = cursor + limit if len(books) == limit else None
+    return (books, next_page)
+
+
 def read(id):
-    result = Book.query.get(id)
+    result = Box.query.get(id)
     if not result:
         return None
     return from_sql(result)
-# [END read]
 
 
-# [START create]
 def create(data):
-    book = Book(**data)
+    book = Box(**data)
     db.session.add(book)
     db.session.commit()
     return from_sql(book)
-# [END create]
 
 
 # [START update]
 def update(data, id):
-    book = Book.query.get(id)
+    book = Box.query.get(id)
     for k, v in data.items():
         setattr(book, k, v)
     db.session.commit()
@@ -96,7 +123,7 @@ def update(data, id):
 
 
 def delete(id):
-    Book.query.filter_by(id=id).delete()
+    Box.query.filter_by(id=id).delete()
     db.session.commit()
 
 

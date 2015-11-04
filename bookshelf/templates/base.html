@@ -1,40 +1,104 @@
 {#
-# Copyright 2015 Google Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#}
-<!DOCTYPE html>
-<html lang="en">
+  # Copyright 2015 Google Inc.
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+  # You may obtain a copy of the License at
+  #
+  #     http://www.apache.org/licenses/LICENSE-2.0
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS,
+  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  # See the License for the specific language governing permissions and
+  # limitations under the License.
+  #}
+  <!DOCTYPE html>
+  <html lang="en">
   <head>
-    <title>Bookshelf - Python on Google Cloud Platform</title>
+    <title>CrossWorld - To know to understand and to collaborate with people across the world</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!--    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">    
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+    <!-- JQuery -->
+    <!--    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!--    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script> -->
+
+    <!-- JQuery Mobile -->
+    <!--    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <!--    <script src="http://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+
+
+
+    <!-- My OWN Stuff -->
+    <link rel="stylesheet" href="/static/layout_cross.css">
+
   </head>
-  <body>
-    <div class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <div class="navbar-brand">Bookshelf</div>
-        </div>
-        <ul class="nav navbar-nav">
-          <li><a href="/books">Books</a></li>
+  <body style="overflow: scroll;">
+
+    <!-- <div class="navbar navbar-default" style="margin-bottom:0px;border:0px;"> -->
+    <div class="container" style="">
+      <a href="/">
+        <div style="display:inline;font-weight:800; font-size:300%; color:black;"><span style="font-size:150%;height:50px;">C</span>ROSSWOR<span id="L">L</span>D</div>
+      </a>
+
+      <a style="display:inline;float:right;font-weight:600;font-size:200%;color:black;padding:35px 10px 0px 0px;" href="#about_us_pop" data-rel="popup" data-transition="pop" data-position-to="window">About Us</a>
+
+      <div data-role="popup" id="about_us_pop" class="ui-content" data-overlay-theme="b">
+        <h1>CrossWorld</h1>
+        <h3>-- to Know, to Understand, and to Collaborate with one another</h3>
+        <ul>
+          <li><h4>This is a special weekly "social hour", where you step out of your tribe and meet poeple with different backgrounds.</h4></li>
+          <li><h4>Here, we form small-table interactive conversations (2-3 person), with great patience for one another.</h4></li>
+          <li><h4>Interdisciplinary skills sharing/exchange is highly encouraged to promote more accessible collaborations.</h4></li>
         </ul>
-      </div>
+        <br>
+
+        <h4>We have an interesting Chinese name:</h4><h4 style="text-align:center;">"反不明觉厉联盟"</h4><h4>If you are curious about it, come on Fridays and find it out.</h4>
+        <br>
+
+        <h4 style="text-align:right;">XCHANGE COOP -- break down boundaries!</h4>
+        <br>
+        <h4>[This site is in its unstable preliminary release. More relavent, useful, and exciting functions are coming!]</h4>
+      </div>  
+      <!-- </div> -->
+
+      {# [START profile] #}
+      <p class="">
+        {% if session.profile %}
+        <a target="" href="/logout">
+          {% if session.profile.image %}
+          <img class="img-circle" src="{{session.profile.image.url}}" width="24">
+          {% endif %}
+          {{session.profile.displayName}}
+        </a>
+        {% else %}
+        <a target="" href="/oauth2authorize">Login</a>
+        {% endif %}
+      </p>
+      {# [END profile] #}
     </div>
-    <div class="container">
+
+    <div class="container" style="border-bottom:0;">
       {% block content %}{% endblock %}
     </div>
+    
+    <!-- bottom bar  -->
+    <div class="container" style="border-top:0px;"> 
+      <div style="padding:10px;margin-top:10px;color:white;background:black;font-style:bold;">
+        <a target="_blank" style="font-size:24px;color:royalblue;" href="http://xchangecoop.org/">XCHANGE COOP</a>
+        <a target="_blank" style="font-size:24px;color:royalblue;float:right;" href="http://xchangecoop.org/people/john.html">Author: John Yao</a>
+      </div>
+    </div>
+
     {{user}}
   </body>
-</html>
+  </html>

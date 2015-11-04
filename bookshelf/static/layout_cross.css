@@ -1,0 +1,68 @@
+body {
+    font-family: "Garamond","Georgia","Times New Roman","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+div {text-shadow:0px 0px 0px #F3F3F3;}
+
+.ui-page-theme-a a {font-weight: normal}
+
+.container {width:914px; padding:0;}
+  /*border:2px solid black;}*/
+
+span#L { color:royalblue; }
+
+.box {
+    width:130px;
+    height:130px;
+    display:inline;
+    margin:0; 
+    border-radius: 0;
+    border:1px solid black;
+    float: left;
+    color:#000000;
+    text-align: center;
+    overflow: hidden;
+}
+
+.b4 , .b7 , .b11 , .b16 , .b17 , .b18 , .b19 , .b20 , .b25 , .b27 , .b29 , .b30 ,
+ .b31 , .b32 , .b33 , .b34 , .b35 , .b39 , .b42 , .b46 , .b48 , .b49 , .b53 {
+    background-color:#000000;
+    color: #ffffff;
+    /*border:1px solid white;*/
+}
+
+.b1, .b2, .b3, .b4, .b5, .b6, .b7 {
+  border-top:2px solid black;
+}
+.b50, .b51, .b52, .b53, .b54, .b55, .b56 {
+  border-bottom:2px solid black;
+}
+.b1, .b8, .b15, .b22, .b29, .b36, .b43, .b50 {
+  border-left:2px solid black;
+}
+.b7, .b14, .b21, .b28, .b35, .b42, .b49, .b56 {
+  border-right:2px solid black;
+}
+.b1 { border-top-left-radius:2em; }
+.b7 { border-top-right-radius:2em; }
+.b50 { border-bottom-left-radius:2em; }
+.b56 { border-bottom-right-radius:2em; }
+
+#signup label.error {
+  font-size: 0.8em;
+  color: #F00;
+  font-weight: bold;
+  display: block;
+  margin-left: 215px;
+}
+#signup  input.error, #signup select.error  {
+  background: #FFA9B8;
+  border: 1px solid red;
+}
+
+
+
+
+
+
+

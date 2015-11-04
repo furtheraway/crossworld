@@ -14,36 +14,97 @@
 # limitations under the License.
 #}
 
-{# [START form] #}
 {% extends "base.html" %}
 
 {% block content %}
-<h3>{{action}} book</h3>
+<head>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.js"></script>
+</head>
+<script>
+$(document).ready(function() {
+  $("#signup").validate({
+    rules: {
+      email: {
+        required: false,
+        email: true
+      },
+      password: {
+        required: true,
+        rangelength:[8,16]
+      },
+      confirm_password: {equalTo:'#password'},
+      spam: "required"
+    }, //end rules
+    messages: {
+      email: {
+         required: "Please supply an e-mail address.",
+         email: "This is not a valid email address."
+       },
+      password: {
+        required: 'Please type a password',
+        rangelength: 'Password must be between 8 and 16 characters long.'
+      },
+      confirm_password: {
+        equalTo: 'The two passwords do not match.'
+      }
+    },
+   errorPlacement: function(error, element) { 
+       if ( element.is(":radio") || element.is(":checkbox")) {
+          error.appendTo( element.parent()); 
+        } else {
+          error.insertAfter(element);
+        } 
+    } 
 
-<form method="POST" enctype="multipart/form-data">
+  }); // end validate 
+}); // end ready
+</script>
+
+<h3>Please Just Come and Explore! [This whole form is optional.] <br>But if you have particular interest/need in mind, let others know by filling out this form. <br> Your interest/need will be posted in the CrossWord. <br>Also, others might ask for your help once they knew your field/offerings.</h3>
+
+<form id="signup" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Name or Nick Name *</label>
+    <input type="text" name="name" id="name" value="{{book.name}}" class="form-control required"/>
+  </div>
 
   <div class="form-group">
-    <label for="title">Title</label>
+    <label for="major">Major or Professional Field *</label>
+    <input type="text" name="major" id="major" value="{{book.major}}" class="form-control required"/>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Topic</label>
     <input type="text" name="title" id="title" value="{{book.title}}" class="form-control"/>
   </div>
 
   <div class="form-group">
-    <label for="author">Author</label>
-    <input type="text" name="author" id="author" value="{{book.author}}" class="form-control"/>
+    <label for="seeking">Seeking</label>
+    <textarea type="text" name="seeking" id="seeking" value="{{book.seeking}}" class="form-control"/>{{book.seeking}}</textarea>
   </div>
 
   <div class="form-group">
-    <label for="publishedDate">Date Published</label>
-    <input type="text" name="publishedDate" id="publishedDate" value="{{book.publishedDate}}" class="form-control"/>
+    <label for="offering">Offering</label>
+    <textarea name="offering" id="offering" class="form-control">{{book.offering}}</textarea>
   </div>
 
   <div class="form-group">
-    <label for="description">Description</label>
-    <textarea name="description" id="description" class="form-control">{{book.description}}</textarea>
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" value="{{book.email}}" class="form-control"/>
+  </div>
+<h4>If there is no response after you click "Save", please reload the current page. Sorry for the inconvenience. Please try not to click the save button multiple times.</h4>
+
+  <div class="form-group hidden">
+    <label for="createdBy">Created by</label>
+    <input type="text" name="createdBy" id="createdBy" value="{{book.createdBy}}" class="form-control"/>
   </div>
 
-  <button type="submit" class="btn btn-success">Save</button>
+  <div class="form-group hidden">
+    <label for="createdById">Created by ID</label>
+    <input type="text" name="createdById" id="createdById" value="{{book.createdById}}" class="form-control"/>
+  </div>
+
+  <button type="submit" class="btn btn-success" style="background-color:#5CB85C">Save</button>
 </form>
 
 {% endblock %}
-{# [END form] #}

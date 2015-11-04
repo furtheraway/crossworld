@@ -18,34 +18,46 @@
 
 {% block content %}
 
-<h3>Books</h3>
-<a href="/books/add" class="btn btn-success btn-sm">
-  <i class="glyphicon glyphicon-plus"></i>
-  Add book
-</a>
 
-{% for book in books %}
-<div class="media">
-  <a href="/books/{{book.id}}">
-    <div class="media-left">
-      <img src="http://placekitten.com/g/128/192">
-    </div>
-    <div class="media-body">
-      <h4>{{book.title}}</h4>
-      <p>{{book.author}}</p>
-    </div>
+  <div style="padding:8px 10px 12px; background: #000; color:#fff; margin:0px 0px; font-family:Helvetica,Arial,sans-serif;">
+    <p style="display:inline; font-size:150%;">Next Gathering: 5pm-7pm Oct.30 (Friday) @ SBU SAC Lobby)</p>
+    <a target="" href="/add" class="btn btn-success" style="float:right;color:black;background:white;font-weight:600;">
+    <!-- <a href="http://localhost:8080/books/add" class="btn btn-success" style="float:right;color:black;background:white;font-weight:600;"> -->
+      <i class="glyphicon glyphicon-plus"></i>
+      I'm Going!
+    </a>
+  </div>
+
+<div style="width:910px;margin-top:12px;">
+
+{% for i in range(1,57) %}
+  <a href="#myPopup_{{i}}" data-rel="popup" data-transition="flip" data-position-to="window" >
+    <div class="box b{{i}}"></div>
   </a>
-</div>
+  <div data-role="popup" id="myPopup_{{i}}" class="ui-content" data-overlay-theme="b" style="width:450px;">
+  </div>
 {% else %}
 <p>No books found</p>
 {% endfor %}
+</div>
 
-{% if next_page_token %}
-<nav>
-  <ul class="pager">
-    <li><a href="?page_token={{next_page_token}}">More</a></li>
-  </ul>
-</nav>
-{% endif %}
+
+
+<script>
+$( document ).ready(function() {
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+{% for box in books %}
+  var x = getRandomInt(1,57);
+  $(".b"+x).html("<h4>{{box.title}}</h4> <p>{{box.major}}</p> <p>{{box.seeking}}</p> <p>{{box.offering}}</p>");
+
+  $('#myPopup_'+x).html("<h4>{{box.title}}</h4> <p><strong>Name: </strong>{{box.name}}</p> <p><strong>Major: </strong>{{box.major}}</p> <p><strong>Seeking: </strong> {{box.seeking}}</p> <p><strong>Offering: </strong>{{box.offering}}</p> <p>{{box.email}}</p> <p>{{box.createdBy}}</p>");
+{% endfor %} 
+
+});
+</script>
+
 
 {% endblock %}
