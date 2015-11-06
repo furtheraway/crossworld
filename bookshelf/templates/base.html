@@ -18,7 +18,8 @@
   <head>
     <title>CrossWorld - To know to understand and to collaborate with people across the world</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=920, initial-scale=1"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"> -->
 
     <!--    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> -->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">    
@@ -42,7 +43,7 @@
     <link rel="stylesheet" href="/static/layout_cross.css">
 
   </head>
-  <body style="overflow: scroll;">
+  <body style="overflow: auto; overflow-x:visible;">
 
     <!-- <div class="navbar navbar-default" style="margin-bottom:0px;border:0px;"> -->
     <div class="container" style="">
@@ -50,7 +51,7 @@
         <div style="display:inline;font-weight:800; font-size:300%; color:black;"><span style="font-size:150%;height:50px;">C</span>ROSSWOR<span id="L">L</span>D</div>
       </a>
 
-      <a style="display:inline;float:right;font-weight:600;font-size:200%;color:black;padding:35px 10px 0px 0px;" href="#about_us_pop" data-rel="popup" data-transition="pop" data-position-to="window">About Us</a>
+      <p style="display:inline;float:right;font-weight:500;font-size:160%;color:black;padding:18px 5px 0px 0px; text-align:right;margin:0;">We <span style="color:royalblue;">Meet</span> to Solve Each<br>Other's Problems</p>
 
       <div data-role="popup" id="about_us_pop" class="ui-content" data-overlay-theme="b">
         <h1>CrossWorld</h1>
@@ -67,25 +68,33 @@
 
         <h4 style="text-align:right;">XCHANGE COOP -- break down boundaries!</h4>
         <br>
-        <h4>[This site is in its unstable preliminary release. More relavent, useful, and exciting functions are coming!]</h4>
+        <h4>[This site is in beta. More relevant, useful, and exciting functions are coming!]</h4>
       </div>  
-      <!-- </div> -->
+      </div>
 
-      {# [START profile] #}
-      <p class="">
-        {% if session.profile %}
-        <a target="" href="/logout">
-          {% if session.profile.image %}
-          <img class="img-circle" src="{{session.profile.image.url}}" width="24">
-          {% endif %}
-          {{session.profile.displayName}}
-        </a>
-        {% else %}
-        <a target="" href="/oauth2authorize">Login</a>
-        {% endif %}
-      </p>
-      {# [END profile] #}
+    <div class="container" style="clear:both;">
+      <div id="menu" style="height:42px; clear:both; background: #000; color:#fff; margin:0px 0px; font-family:Helvetica,Arial,sans-serif;box-sizing:border-box;">
+        <a class="vcenter" href="#about_us_pop" data-rel="popup" data-transition="pop" data-position-to="window">About Us</a>
+        <a class="vcenter" target="" href="/my_post">My Post</a>
+        <a class="vcenter" href="/category/10">Categories</a>
+
+          {# [START profile] #}
+            {% if session.profile %}
+            <a target="" href="/logout" style="float:right;font-size:18px;padding-top:10px;">
+              {% if session.profile.image %}
+              <img class="img-circle" src="{{session.profile.image.url}}" width="24">
+              {% endif %}
+              {{session.profile.displayName}}
+              <!-- {{session.profile.emails[0].value}} -->
+            </a>
+            {% else %}
+            <a target="" href="/oauth2authorize" style="float:right;font-size:20px;">Login</a>
+            {% endif %}
+          {# [END profile] #}
+
+      </div>
     </div>
+
 
     <div class="container" style="border-bottom:0;">
       {% block content %}{% endblock %}

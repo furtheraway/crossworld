@@ -15,7 +15,7 @@
 from bookshelf import get_model, oauth2
 from flask import Blueprint, current_app, redirect, render_template, request, \
     session, url_for
-
+from datetime import datetime
 
 crud = Blueprint('crud', __name__)
 
@@ -25,15 +25,17 @@ crud = Blueprint('crud', __name__)
 def list():
     token = request.args.get('page_token', None)
     books, next_page_token = get_model().list(cursor=token)
+    news1 = get_model().read_news(id=3)
 
     return render_template(
         "list.html",
         books=books,
-        next_page_token=next_page_token)
+        next_page_token=next_page_token,
+        news1=news1)
 # [END list]
 
 
-@crud.route("/mine")
+@crud.route("/my_post")
 @oauth2.required
 def list_mine():
     token = request.args.get('page_token', None)
@@ -45,7 +47,23 @@ def list_mine():
     return render_template(
         "list_mine.html",
         books=books,
-        next_page_token=next_page_token)
+        next_page_token=datetime.utcnow(),
+        user_id=session['profile']['emails'][0]['value'])
+        # above for testing purpose, in my post header;
+
+@crud.route("/category/<cid>")
+def list_category(cid):
+    token = request.args.get('page_token', None)
+
+    books, next_page_token = get_model().list_by_category(
+        cid=cid,
+        cursor=token)
+
+    return render_template(
+        "list_category.html",
+        books=books,
+        next_page_token=next_page_token,
+        cid=cid)
 
 # Add a logout handler.
 @crud.route('/logout')
@@ -53,7 +71,8 @@ def logout():
     # Delete the user's profile and the credentials stored by oauth2.
     del session['profile']
     oauth2.storage.delete()
-    return redirect(request.referrer or '/')
+    return redirect('/')
+    # return redirect(request.referrer or '/')
 
 
 @crud.route('/<id>')
@@ -72,6 +91,9 @@ def add():
         if 'profile' in session:
             data['createdBy'] = session['profile']['displayName']
             data['createdById'] = session['profile']['id']
+            data['email_true'] = session['profile']['emails'][0]['value']
+            data['create_T'] = datetime.utcnow()
+            data['modify_T'] = datetime.utcnow()
 
         book = get_model().create(data)
 
@@ -84,9 +106,18 @@ def add():
 @crud.route('/<id>/edit', methods=['GET', 'POST'])
 def edit(id):
     book = get_model().read(id)
+    if not ('profile' in session and (book['createdById'] == session['profile']['id'] or session['profile']['id']=="111854835568927675810")):
+        return render_template("nope.html")
 
     if request.method == 'POST':
         data = request.form.to_dict(flat=True)
+        
+        # If the user is logged in, associate their profile with the new book.
+        if 'profile' in session:
+            data['createdBy'] = session['profile']['displayName']
+            data['createdById'] = session['profile']['id']
+            data['email_true'] = session['profile']['emails'][0]['value']
+            data['modify_T'] = datetime.utcnow()
 
         book = get_model().update(data, id)
 
@@ -97,5 +128,26 @@ def edit(id):
 
 @crud.route('/<id>/delete')
 def delete(id):
-    get_model().delete(id)
-    return redirect(url_for('.list'))
+    book = get_model().read(id)
+    if ('profile' in session and (book['createdById'] == session['profile']['id'] or session['profile']['id']=="111854835568927675810")):
+        get_model().delete(id)
+        return redirect(request.referrer or '/')
+    else:
+        return render_template("nope.html")
+
+
+@crud.route('/job')
+def list_all():
+    if ('profile' in session and session['profile']['id']=="111854835568927675810"):
+        token = request.args.get('page_token', None)
+        books, next_page_token = get_model().list_all(
+            cursor=token)
+        return render_template(
+            "list_mine.html",
+            books=books,
+            next_page_token=next_page_token)
+    else:
+        return render_template("nope.html")
+
+
+

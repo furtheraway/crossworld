@@ -19,16 +19,15 @@
 {% block content %}
 
 
-  <div style="padding:8px 10px 12px; background: #000; color:#fff; margin:0px 0px; font-family:Helvetica,Arial,sans-serif;">
-    <p style="display:inline; font-size:150%;">Next Gathering: 5pm-7pm Oct.30 (Friday) @ SBU SAC Lobby)</p>
-    <a target="" href="/add" class="btn btn-success" style="float:right;color:black;background:white;font-weight:600;">
-    <!-- <a href="http://localhost:8080/books/add" class="btn btn-success" style="float:right;color:black;background:white;font-weight:600;"> -->
+  <div style="padding:8px 8px 4px; background: #fff; color:#000; margin:0px 0px; font-family:Helvetica,Arial,sans-serif;border:2px solid black;">
+    <p style="display:inline; font-size:120%;font-weight:600;">{{news1.title}}</p>
+    <a target="" href="/add" style="float:right;font-size:120%;font-weight:600;">
       <i class="glyphicon glyphicon-plus"></i>
-      I'm Going!
+      Post a problem / Offer some help!
     </a>
   </div>
 
-<div style="width:910px;margin-top:12px;">
+<div style="width:910px;margin-top:16px;">
 
 {% for i in range(1,57) %}
   <a href="#myPopup_{{i}}" data-rel="popup" data-transition="flip" data-position-to="window" >
@@ -41,23 +40,57 @@
 {% endfor %}
 </div>
 
-
+{% for box in books %}
+<div id="hide_{{loop.index}}" style="display:none;">
+<h4>{{box.title}}</h4> <p>[{{box.name}} | {{box.major}}]<br>{{box.seeking}}</p> <p>{{box.offering}}</p>
+</div>
+<div id="hide2_{{loop.index}}" style="display:none;">
+  <h4>{{box.title}}</h4> <p><strong>Name: </strong>{{box.name}}</p> <p><strong>Major: </strong>{{box.major}}</p> <p><strong>Seeking: </strong> {{box.seeking|e}}</p> <p><strong>Offering: </strong>{{box.offering}}</p> <p>{{box.email}}</p>
+</div>
+{% endfor %} 
 
 <script>
-$( document ).ready(function() {
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
+$(document).ready(function() {
+
+//   function getRandomInt(min, max) {
+//     return Math.floor(Math.random() * (max - min)) + min;
+//   }
+// var x = getRandomInt(1,57);
+function Shuffle(o) {
+  for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
+
+var xx = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56];
+Shuffle(xx);
+var i = 1;
 
 {% for box in books %}
-  var x = getRandomInt(1,57);
-  $(".b"+x).html("<h4>{{box.title}}</h4> <p>{{box.major}}</p> <p>{{box.seeking}}</p> <p>{{box.offering}}</p>");
-
-  $('#myPopup_'+x).html("<h4>{{box.title}}</h4> <p><strong>Name: </strong>{{box.name}}</p> <p><strong>Major: </strong>{{box.major}}</p> <p><strong>Seeking: </strong> {{box.seeking}}</p> <p><strong>Offering: </strong>{{box.offering}}</p> <p>{{box.email}}</p> <p>{{box.createdBy}}</p>");
+  var x = xx[i];
+  $(".b"+x).html($("#hide_{{loop.index}}").html());
+  $('#myPopup_'+x).html($("#hide2_{{loop.index}}").html());
+  i=i+1;
 {% endfor %} 
 
 });
 </script>
 
+<div style="color:white;">-</div>
+<h1 id="categories" style="border-bottom:2px solid black;margin-top:5px;">Categories:</h1>
+<div style="border:1px solid black">
+    <a href="/category/1"><div class="box btn-default" style="background-color:#66ffff;color:gray;"><p class="vcenter"><span style="font-size:24px;">Curiosity:</span><br>get to know different people</p></div></a>
+
+    <a href="/category/2"><div class="box btn-primary"><p class="vcenter"><span style="font-size:24px;">Academic:</span><br>may lead to co-authership</p></div></a>
+    
+    <a href="/category/3"><div class="box btn-success"><p class="vcenter"><span style="font-size:24px;">Skills/Tech:</span><br>learn from an expert</p></div></a>
+    
+    <a href="/category/4"><div class="box btn-info"><p class="vcenter"><span style="font-size:24px;">Startup:</span><br>let us make it happen</p></div></a>
+    
+    <a href="/category/5"><div class="box btn-warning"><p class="vcenter"><span style="font-size:24px;">Community:</span><br>for public good</p></div></a>
+    
+    <a href="/category/6"><div class="box btn-danger"><p class="vcenter"><span style="font-size:24px;">Emergency:</span><br>help desperately needed</p></div></a>
+    
+    <a href="/category/0"><div class="box "><p class="vcenter"><span style="font-size:24px;">Other</span><br></p></div></a>
+</div>
 
 {% endblock %}

@@ -1,0 +1,63 @@
+{#
+# Copyright 2015 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+<a target="" href="/add" class="btn btn-success" style="float:right;font-weight:600; color:white; font-size:16px; margin-bottom:15px;">
+  <i class="glyphicon glyphicon-plus"></i>
+  Create a Post!
+</a>
+
+<h1 id="categories" style="border-bottom:2px solid black;">Categories:</h1>
+</div>
+
+<div style="border:1px solid black">
+    <a href="/category/1"><div class="box btn-default" style="background-color:#66ffff;color:gray;"><p class="vcenter"><span style="font-size:24px;">Curiosity:</span><br>get to know different people</p></div></a>
+
+    <a href="/category/2"><div class="box btn-primary"><p class="vcenter"><span style="font-size:24px;">Academic:</span><br>may lead to co-authership</p></div></a>
+    
+    <a href="/category/3"><div class="box btn-success"><p class="vcenter"><span style="font-size:24px;">Skills/Tech:</span><br>learn from an expert</p></div></a>
+    
+    <a href="/category/4"><div class="box btn-info"><p class="vcenter"><span style="font-size:24px;">Startup:</span><br>let us make it happen</p></div></a>
+    
+    <a href="/category/5"><div class="box btn-warning"><p class="vcenter"><span style="font-size:24px;">Community:</span><br>for public good</p></div></a>
+    
+    <a href="/category/6"><div class="box btn-danger"><p class="vcenter"><span style="font-size:24px;">Emergency:</span><br>help desperately needed</p></div></a>
+    
+    <a href="/category/0"><div class="box "><p class="vcenter"><span style="font-size:24px;">Other</span><br></p></div></a>
+</div>
+<h3>Please select a category above.</h3>
+
+<!-- <div style="color:white;">-</div> -->
+
+<div id="category_list">
+
+  {% for box in books %}
+  <hr>
+  <div class="media-left box box_solo"><h4>{{box.title}}</h4> <p>[{{box.name}} | {{box.major}}]<br>{{box.seeking}}</p> <p>{{box.offering}}</p>
+  </div>
+
+  <div class="media-body"><div class="scroll">
+    <h4>{{box.title}}</h4> <p><strong>Name: </strong>{{box.name}} | <strong> Major: </strong>{{box.major}}</p> <p><strong>Seeking: </strong> {{box.seeking}}</p> <p><strong>Offering: </strong>{{box.offering}}</p> <p><strong>Email: </strong>{{box.email}}</p>
+  </div></div>
+
+  {% endfor %} 
+
+</div>
+
+{% endblock %}

@@ -32,6 +32,9 @@ $(document).ready(function() {
         required: true,
         rangelength:[8,16]
       },
+      category: {
+        required: true
+      },      
       confirm_password: {equalTo:'#password'},
       spam: "required"
     }, //end rules
@@ -57,21 +60,49 @@ $(document).ready(function() {
     } 
 
   }); // end validate 
+
+
 }); // end ready
 </script>
 
-<h3>Please Just Come and Explore! [This whole form is optional.] <br>But if you have particular interest/need in mind, let others know by filling out this form. <br> Your interest/need will be posted in the CrossWord. <br>Also, others might ask for your help once they knew your field/offerings.</h3>
+<h1><span style="">Please Just Come and Explore! [This form is optional.]</span></h1> 
+<h3>If you have particular interests/needs in mind, please let others know by filling out this form. <br>Your interests/needs will be posted in the CrossWord. <br>Also, others might ask for your help once they know your field of expertise/what you offer.</h3>
 
-<form id="signup" method="POST" enctype="multipart/form-data">
-  <div class="form-group">
-    <label for="name">Name or Nick Name *</label>
-    <input type="text" name="name" id="name" value="{{book.name}}" class="form-control required"/>
+<hr>
+<div class="media">
+  <div class="media-left">
+    <!-- <img class="book-image" src="http://placekitten.com/g/130/00"> -->
+    <div style="color:white;background:black;font-size:22px;text-align:center;padding-top:3px;">Crossword<br>Box Layout</div>
+    <div class="box box_solo">
+    <h4>Topic</h4> <p>[your name | Major]</p><p>seeking/offering</p>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="major">Major or Professional Field *</label>
-    <input type="text" name="major" id="major" value="{{book.major}}" class="form-control required"/>
-  </div>
+
+
+  <div class="media-body" style="padding-left:15px;">
+
+  <form id="signup" method="POST" enctype="multipart/form-data">
+
+<div class="form-group" id="selector">
+<h4>[Old posts from not-signed-in users will be deleted from time to time. If you want to keep your posts, please "Login", and your post history will be under "My Post".]</h4>
+  <label for="category">Category: *
+  {% if book.category %}You have selected category {{book.category}}
+  {% endif %}
+  </label>
+  <select class="form-control required" name="category" id="category" style="padding:0;">
+    <option></option>
+    <option value="1" class="btn-default" style="background-color:#66ffff;color:gray;">1- Curiosity: get to know different people</option>
+    <option value="2" class="btn-primary">2- Academic: may lead to co-authership</option>
+    <option value="3" class="btn-success">3- Skills/Tech: learn from an expert</option>
+    <option value="4" class="btn-info">4- Startup: let us make it happen</option>
+    <option value="5" class="btn-warning">5- Community: for public good</option>
+    <option value="6" class="btn-danger">6- Emergency: help desperately needed</option>
+    <option value="0" class="">0- Other</option>
+  </select>
+</div>
+
+
 
   <div class="form-group">
     <label for="title">Topic</label>
@@ -79,20 +110,30 @@ $(document).ready(function() {
   </div>
 
   <div class="form-group">
-    <label for="seeking">Seeking</label>
+    <label for="name">Your Name or Nick Name *</label>
+    <input type="text" name="name" id="name" value="{{book.name}}" class="form-control required"/>
+  </div>
+
+  <div class="form-group">
+    <label for="major">Your Major or Professional Field *</label>
+    <input type="text" name="major" id="major" value="{{book.major}}" class="form-control required"/>
+  </div>
+
+  <div class="form-group">
+    <label for="seeking">Seeking - [things you hope to learn/explore, a problem you need help with]</label>
     <textarea type="text" name="seeking" id="seeking" value="{{book.seeking}}" class="form-control"/>{{book.seeking}}</textarea>
   </div>
 
   <div class="form-group">
-    <label for="offering">Offering</label>
+    <label for="offering">Offering - [stuff you'd like to teach/share, skills you can help with]</label>
     <textarea name="offering" id="offering" class="form-control">{{book.offering}}</textarea>
   </div>
 
   <div class="form-group">
-    <label for="email">Email</label>
+    <label for="email">Email - [make yourself accessible to others who can/need help]</label>
     <input type="text" name="email" id="email" value="{{book.email}}" class="form-control"/>
   </div>
-<h4>If there is no response after you click "Save", please reload the current page. Sorry for the inconvenience. Please try not to click the save button multiple times.</h4>
+<h4>If there is no response after you click "Save", please reload the current page. Please do not click the save button multiple times. Sorry for the inconvenience.</h4>
 
   <div class="form-group hidden">
     <label for="createdBy">Created by</label>
@@ -104,7 +145,21 @@ $(document).ready(function() {
     <input type="text" name="createdById" id="createdById" value="{{book.createdById}}" class="form-control"/>
   </div>
 
-  <button type="submit" class="btn btn-success" style="background-color:#5CB85C">Save</button>
+  <div class="form-group hidden">
+    <label for="email_true">Created by ID</label>
+    <input type="text" name="email_true" id="email_true" value="{{book.email_true}}" class="form-control"/>
+  </div>
+
+  <button type="submit" class="btn btn-success" style="background-color:#5CB85C; font-size:16px; padding:6px;">Save</button>
+
+  <a href="/"><button type="button" class="btn" style="padding:6px;">Cancel</button></a>
+
 </form>
+
+  </div>
+</div>
+
+
+
 
 {% endblock %}

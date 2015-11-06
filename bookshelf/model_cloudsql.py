@@ -14,6 +14,7 @@
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 import six
 
 
@@ -66,37 +67,76 @@ class Box(db.Model):
     email = db.Column(db.String(255))
     type = db.Column(db.Integer)
     category = db.Column(db.Integer)
-    category2 = db.Column(db.Integer)
+    show_hide = db.Column(db.Integer)
     category3 = db.Column(db.Integer)
     createdBy = db.Column(db.String(255))
     createdById = db.Column(db.String(255))
+    email_true = db.Column(db.String(255))
+    create_T = db.Column(db.DateTime)
+    modify_T = db.Column(db.DateTime)
 
     def __repr__(self):
         return "<Box(title='%s', author=%s)" % (self.title, self.name)
 
+class News(db.Model):
+    __tablename__ = 'News'
 
-def list(limit=500, cursor=None):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(1023))
+
+def read_news(id):
+    result = News.query.get(id)
+    if not result:
+        return None
+    return from_sql(result)
+
+def list(limit=55, cursor=None):
     cursor = int(cursor) if cursor else 0
     query = (Box.query
-             .order_by(Box.title)
+             .order_by(desc(Box.id))
              .limit(limit)
              .offset(cursor))
     books = builtin_list(map(from_sql, query.all()))
     next_page = cursor + limit if len(books) == limit else None
     return (books, next_page)
 
+def list_all(limit=100, cursor=None):
+    cursor = int(cursor) if cursor else 0
+    query = (Box.query
+             .order_by(desc(Box.id))
+             .limit(limit)
+             .offset(cursor))
+    books = builtin_list(map(from_sql, query.all()))
+    next_page = cursor + limit if len(books) == limit else None
+    return (books, next_page)
 
 def list_by_user(user_id, limit=100, cursor=None):
     cursor = int(cursor) if cursor else 0
+    if (False and user_id=="111854835568927675810"):
+        query = (Box.query
+                .order_by(desc(Box.id))
+                .limit(limit)
+                .offset(cursor))
+    else:
+        query = (Box.query
+                 .filter_by(createdById=user_id)
+                 .order_by(desc(Box.id))
+                 .limit(limit)
+                 .offset(cursor))
+    books = builtin_list(map(from_sql, query.all()))
+    next_page = cursor + limit if len(books) == limit else None
+    return (books, next_page)
+
+def list_by_category(cid, limit=100, cursor=None):
+    cursor = int(cursor) if cursor else 0
     query = (Box.query
-             .filter_by(createdById=user_id)
-             .order_by(Box.title)
+             .filter_by(category=cid)
+             .order_by(desc(Box.id))
              .limit(limit)
              .offset(cursor))
     books = builtin_list(map(from_sql, query.all()))
     next_page = cursor + limit if len(books) == limit else None
     return (books, next_page)
-
 
 def read(id):
     result = Box.query.get(id)

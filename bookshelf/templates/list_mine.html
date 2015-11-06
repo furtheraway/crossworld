@@ -1,0 +1,59 @@
+{#
+# Copyright 2015 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<!--   <div style="padding:8px 10px 12px; background: #000; color:#fff; margin:0px 0px; font-family:Helvetica,Arial,sans-serif;">
+    <p style="display:inline; font-size:150%;">Posts by user: {{user_id}} Next page:{{next_page_token}}</p>
+  </div> -->
+
+<a target="" href="/add" class="btn btn-success" style="font-weight:600; color:white; font-size:16px; margin-top:5px;">
+      <i class="glyphicon glyphicon-plus"></i>
+      New Post!
+    </a>
+
+
+{% for box in books %}
+<hr>
+<div class="media-left box box_solo"><h4>{{box.title}}</h4> <p>[{{box.name}} | {{box.major}}]<br>{{box.seeking}}</p> <p>{{box.offering}}</p>
+</div>
+
+<div class="media-body" style="padding-left:15px;">
+  <h4>{{box.title}}</h4> <p><strong>Name: </strong>{{box.name}}</p> <p><strong>Major: </strong>{{box.major}}</p> <p><strong>Seeking: </strong> {{box.seeking}}</p> <p><strong>Offering: </strong>{{box.offering}}</p> <p><strong>Email: </strong>{{box.email}}</p>
+
+  <div class="btn-group">
+  <a target="" href="/{{box.id}}/edit" class="btn btn-primary btn-sm">
+    <i class="glyphicon glyphicon-edit"></i>
+    Edit box
+  </a>
+  <a target="" href="/{{box.id}}/delete" class="btn btn-danger btn-sm">
+    <i class="glyphicon glyphicon-trash"></i>
+    Delete box
+  </a>
+  <!-- <a target="" href="/{{box.id}}/repost" class="btn btn-success btn-sm">
+    <i class="glyphicon glyphicon-repeat"></i>
+    Re-post on CrossWorld
+  </a> -->
+  </div>
+</div>
+ 
+{% endfor %} 
+
+
+{% endblock %}

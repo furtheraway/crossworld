@@ -40,6 +40,7 @@ DATASTORE_DATASET_ID = PROJECT_ID
 # Cloud SQL instance.
 SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://yuan:cross@173.194.226.174/library'
+    # 'mysql+pymysql://yuan:cross@2001:4860:4864:1:c3e8:626a:4e6:395e/library'
 
 # Mongo configuration
 # If using mongolab, the connection URI is available from the mongolab control
